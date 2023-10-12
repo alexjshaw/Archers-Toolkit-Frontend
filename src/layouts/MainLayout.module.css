@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100%
+}
+
+.link {
+  display: block;
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+  border-radius: var(--mantine-radius-md);
+  font-weight: 500;
+  transition: transform 0.3s ease;
+
+  @mixin hover {
+    background-color: light-dark(var(--mantine-color-blue-1), var(--mantine-color-dark-6));
+  }
+}
+
+.transform:hover {
+  transform: scale(1.1);
+}
+
+.activeLink {
+  background-color: light-dark(var(--mantine-color-blue-2), var(--mantine-color-dark-4))
+}

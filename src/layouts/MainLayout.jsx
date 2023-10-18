@@ -5,6 +5,9 @@ import { NavLink, useNavigate, Link, Outlet } from "react-router-dom";
 import classes from './MainLayout.module.css'
 import logo from '../assets/logo-no-background.png'
 import ColorToggle from '../components/ColorToggle'
+import FallbackLoader from '../components/utility/FallbackLoader';
+import { LogoutButton } from '../components/utility/LogoutButton';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const links = [
   {
@@ -72,6 +75,7 @@ export default function MainLayout() {
               fit="contain"
               src={logo}
             />
+            <LogoutButton />
             <Group ml="xl" gap={4} visibleFrom="sm">
               {itemsWithTransform}
             </Group>

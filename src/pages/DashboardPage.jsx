@@ -4,11 +4,13 @@ import AuthContext from "../context/AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import FallbackLoader from "../components/utility/FallbackLoader";
 import NewProfileForm from "../components/dashboard/NewProfileForm";
+import { DashboardStats } from "../components/dashboard/DashboardStats";
 
 export default function DashboardPage() {
   const { profileComplete, updateProfileComplete, currentUser, updateCurrentUser } = useContext(AuthContext);
   const [pageReady, setPageReady] = useState(false);
   const { getAccessTokenSilently, user } = useAuth0();
+  const [userScores, setUserScores] = useState()
   const [renderComponent, setRenderComponent] = useState("DashboardStats")
 
   useEffect(() => {
@@ -36,6 +38,19 @@ export default function DashboardPage() {
             responseData.data.archerProfiles.length > 0
         );
         localStorage.setItem('profileComplete', JSON.stringify(isProfileComplete))
+        const options = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+        const scoreResponse = await fetch(
+          `${import.meta.env.VITE_REACT_APP_EXPRESS_URL}/score/currentuser`,
+          options
+        );
+        const scoreData = await scoreResponse.json();
+        setUserScores(scoreData.data)
+
         if (!isProfileComplete) {
         setRenderComponent("NewProfileForm")
         }
@@ -75,8 +90,9 @@ export default function DashboardPage() {
 
   return (
     <AppShell.Main>
-    {renderComponent === "DashboardStats" && <p>PROFILE IS COMPLETE</p>}
+    {renderComponent === "DashboardStats" && <DashboardStats userScores={userScores} />}
     {renderComponent === "NewProfileForm" && <NewProfileForm setRenderComponent={setRenderComponent} />}
+    {/* <NewProfileForm /> */}
     </AppShell.Main>
   );
 }

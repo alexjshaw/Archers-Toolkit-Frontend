@@ -1,0 +1,18 @@
+.wrapper {
+  width: 100%;
+}
+
+.value {
+  font-size: rem(24px);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.title {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.icon {
+  color: light-dark(var(--mantine-color-gray-4), var(--mantine-color-dark-3));
+}

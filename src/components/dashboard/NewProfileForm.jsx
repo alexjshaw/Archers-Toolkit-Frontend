@@ -87,7 +87,7 @@ export default function NewProfileForm({ setRenderComponent }) {
   }
 
   return (
-    <div className="App">
+    // <div>
       <Container size={600}>
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <Title mb={10} align="center">Create Your Profile</Title>
@@ -143,7 +143,7 @@ export default function NewProfileForm({ setRenderComponent }) {
           </Form>
         </Paper>
       </Container>
-      <DevTool control={control} />
-    </div>
+      // <DevTool control={control} />
+    // {/* </div> */}
   )
 }

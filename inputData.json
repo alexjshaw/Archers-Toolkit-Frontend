@@ -1,0 +1,203 @@
+{
+  "_id": {
+    "$oid": "653110bc7a1257ecb638b5f9"
+  },
+  "createdBy": "65007d82bc609d16645ed356",
+  "totalScore": 94,
+  "scored10s": 4,
+  "scoredXs": 2,
+  "handicap": 150,
+  "location": "Cleeve",
+  "weather": "Fair",
+  "notes": "Test Notes",
+  "roundType": {
+    "$oid": "64ef62a1c6f8550524414426"
+  },
+  "bowType": "Compound",
+  "equipment": {
+    "$oid": "6501c9ff71b0d9f4052b3d98"
+  },
+  "archerProfile": {
+    "$oid": "6501c9ff71b0d9f4052b3d93"
+  },
+  "scoreType": "Practice",
+  "completed": true,
+  "visible": true,
+  "arrowValues": [
+    {
+      "arrowNumber": 1,
+      "arrowScore": 7,
+      "isX": false,
+      "_id": {
+        "$oid": "653112107a1257ecb638b60d"
+      },
+      "createdAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      },
+      "updatedAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      }
+    },
+    {
+      "arrowNumber": 2,
+      "arrowScore": 4,
+      "isX": false,
+      "_id": {
+        "$oid": "653112107a1257ecb638b60e"
+      },
+      "createdAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      },
+      "updatedAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      }
+    },
+    {
+      "arrowNumber": 3,
+      "arrowScore": 8,
+      "isX": false,
+      "_id": {
+        "$oid": "653112107a1257ecb638b60f"
+      },
+      "createdAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      },
+      "updatedAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      }
+    },
+    {
+      "arrowNumber": 4,
+      "arrowScore": 9,
+      "isX": false,
+      "_id": {
+        "$oid": "653112107a1257ecb638b610"
+      },
+      "createdAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      },
+      "updatedAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      }
+    },
+    {
+      "arrowNumber": 5,
+      "arrowScore": 10,
+      "isX": false,
+      "_id": {
+        "$oid": "653112107a1257ecb638b611"
+      },
+      "createdAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      },
+      "updatedAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      }
+    },
+    {
+      "arrowNumber": 6,
+      "arrowScore": 10,
+      "isX": true,
+      "_id": {
+        "$oid": "653112107a1257ecb638b612"
+      },
+      "createdAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      },
+      "updatedAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      }
+    },
+    {
+      "arrowNumber": 7,
+      "arrowScore": 9,
+      "isX": false,
+      "_id": {
+        "$oid": "653112107a1257ecb638b613"
+      },
+      "createdAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      },
+      "updatedAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      }
+    },
+    {
+      "arrowNumber": 8,
+      "arrowScore": 1,
+      "isX": false,
+      "_id": {
+        "$oid": "653112107a1257ecb638b614"
+      },
+      "createdAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      },
+      "updatedAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      }
+    },
+    {
+      "arrowNumber": 9,
+      "arrowScore": 10,
+      "isX": true,
+      "_id": {
+        "$oid": "653112107a1257ecb638b615"
+      },
+      "createdAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      },
+      "updatedAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      }
+    },
+    {
+      "arrowNumber": 10,
+      "arrowScore": 9,
+      "isX": false,
+      "_id": {
+        "$oid": "653112107a1257ecb638b616"
+      },
+      "createdAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      },
+      "updatedAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      }
+    },
+    {
+      "arrowNumber": 11,
+      "arrowScore": 7,
+      "isX": false,
+      "_id": {
+        "$oid": "653112107a1257ecb638b617"
+      },
+      "createdAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      },
+      "updatedAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      }
+    },
+    {
+      "arrowNumber": 12,
+      "arrowScore": 10,
+      "isX": false,
+      "_id": {
+        "$oid": "653112107a1257ecb638b618"
+      },
+      "createdAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      },
+      "updatedAt": {
+        "$date": "2023-10-19T11:25:04.603Z"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-10-19T11:19:24.557Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-19T11:25:04.603Z"
+  },
+  "__v": 0
+}

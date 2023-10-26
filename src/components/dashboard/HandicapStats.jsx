@@ -1,15 +1,20 @@
-/*
-Fetch the users archerProfiles
-Each bow type gets its own button to display its information
-From the handicapHistory array, extract the handicap and createdAt values
-Plot those on a graph
-*/
-
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Paper, Group, Button, Title, Alert, Text, ThemeIcon } from "@mantine/core";
+import {
+  Paper,
+  Group,
+  Button,
+  Title,
+  Alert,
+  Text,
+  ThemeIcon,
+} from "@mantine/core";
 import classes from "./HandicapStats.module.css";
-import { IconChartLine, IconArrowUpRight, IconArrowDownRight } from "@tabler/icons-react";
+import {
+  IconChartLine,
+  IconArrowUpRight,
+  IconArrowDownRight,
+} from "@tabler/icons-react";
 import {
   LineChart,
   Line,
@@ -17,6 +22,7 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  CartesianGrid
 } from "recharts";
 
 export function HandicapStats({ userScores }) {
@@ -64,7 +70,7 @@ export function HandicapStats({ userScores }) {
               year: "2-digit",
             });
             transformedData[bowType].push({
-              handicap: history.handicap,
+              Handicap: history.handicap,
               createdAt: formattedDate,
             });
           });
@@ -79,23 +85,22 @@ export function HandicapStats({ userScores }) {
   const Icon = IconChartLine;
 
   const currentData = chartData[selectedBowType];
-  const mostRecentHandicap = currentData.length > 0 ? currentData[currentData.length - 1].handicap : null;
-  const oldestHandicap = currentData.length > 0 ? currentData[0].handicap : null;
+  const mostRecentHandicap =
+    currentData.length > 0
+      ? currentData[currentData.length - 1].Handicap
+      : null;
+  const oldestHandicap =
+    currentData.length > 0 ? currentData[0].Handicap : null;
   const oldestDate = currentData.length > 0 ? currentData[0].createdAt : null;
-  const difference = mostRecentHandicap !== null && oldestHandicap !== null ? mostRecentHandicap - oldestHandicap : null;
+  const difference =
+    mostRecentHandicap !== null && oldestHandicap !== null
+      ? mostRecentHandicap - oldestHandicap
+      : null;
 
   const DiffIcon = difference > 0 ? IconArrowUpRight : IconArrowDownRight;
 
-  const xTicks =
-    currentData.length > 1
-      ? [
-          currentData[0].createdAt,
-          currentData[currentData.length - 1].createdAt,
-        ]
-      : [];
-
-  const minHandicap = Math.min(...currentData.map((item) => item.handicap));
-  const maxHandicap = Math.max(...currentData.map((item) => item.handicap));
+  const minHandicap = Math.min(...currentData.map((item) => item.Handicap));
+  const maxHandicap = Math.max(...currentData.map((item) => item.Handicap));
   const yAxisDomain = [
     Math.floor(minHandicap / 10) * 10,
     Math.ceil(maxHandicap / 10) * 10,
@@ -106,6 +111,7 @@ export function HandicapStats({ userScores }) {
   }
 
   const handleBowTypeSelection = (bowType) => {
+    console.log(chartData);
     if (chartData[bowType] && chartData[bowType].length > 0) {
       setSelectedBowType(bowType);
       setAlertMessage(null); // Clear any previous alerts
@@ -138,7 +144,7 @@ export function HandicapStats({ userScores }) {
           Compound
         </Button>
         <Button
-          onClick={() => handleBowTypeSelection("Barebow")}
+          onClick={() => handleBowTypeSelection("Recurve")}
           p={6}
           variant={selectedBowType === "Barebow" ? "filled" : "outline"}
           color={selectedBowType === "Barebow" ? "blue" : "gray"}
@@ -146,7 +152,7 @@ export function HandicapStats({ userScores }) {
           Recurve
         </Button>
         <Button
-          onClick={() => handleBowTypeSelection("Recurve")}
+          onClick={() => handleBowTypeSelection("Barebow")}
           p={6}
           variant={selectedBowType === "Recurve" ? "filled" : "outline"}
           color={selectedBowType === "Recurve" ? "blue" : "gray"}
@@ -172,20 +178,36 @@ export function HandicapStats({ userScores }) {
           style={{ marginTop: "16px" }}
         />
       )}
-      <ResponsiveContainer width="100%" height={180}>
+      <ResponsiveContainer width="100%" height={200}>
         <LineChart
           data={currentData}
           margin={{
             top: 5,
             right: 5,
             left: -25,
-            bottom: 5,
+            bottom: 15,
           }}
         >
-          <XAxis dataKey="createdAt" ticks={xTicks} />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+          <XAxis
+            dataKey="createdAt"
+            tickFormatter={(tick) => {
+              if (tick === currentData[0]?.createdAt) {
+                return "Oldest";
+              } else if (
+                tick === currentData[currentData.length - 1]?.createdAt
+              ) {
+                return "Newest";
+              }
+              return "";
+            }}
+            tickLine={false}
+            tickMargin={5}
+            label={{ value: 'Handicap Progression', position: 'insideBottom', offset: -10 }}
+          />
           <YAxis domain={yAxisDomain} ticks={yAxisTicks} />
           <Line
-            dataKey="handicap"
+            dataKey="Handicap"
             strokeWidth={2}
             dot={{ strokeWidth: 2, r: 4 }}
           />
@@ -205,11 +227,11 @@ export function HandicapStats({ userScores }) {
         </ThemeIcon>
       </Group>
       <Text fz="sm" c="dimmed" mt={7}>
-      {difference !== null && oldestDate && `An improvement of `}
-      <Text component="span" c={difference < 0 ? "teal" : "red"} fw={700}>
+        {difference !== null && oldestDate && `An improvement of `}
+        <Text component="span" c={difference < 0 ? "teal" : "red"} fw={700}>
           {`${Math.abs(difference)} `}
-      </Text>
-       {`since ${oldestDate}`}
+        </Text>
+        {`since ${oldestDate}`}
       </Text>
     </Paper>
   );

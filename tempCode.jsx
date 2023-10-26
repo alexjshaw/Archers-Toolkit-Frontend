@@ -1,80 +1,114 @@
-export function StatsGrid() {
-  const stats = data.map((stat) => {
-    const Icon = icons[stat.icon];
-    const DiffIcon = stat.diff > 0 ? IconArrowUpRight : IconArrowDownRight;
+import { useState, useEffect } from "react";
+import { Paper, Group, Text, Button, Title, ThemeIcon } from "@mantine/core";
+import classes from "./ArrowStats.module.css";
+import { IconArrowUpRight, IconArrowDownRight, IconArcheryArrow } from "@tabler/icons-react";
 
-    return (
-      <Paper withBorder p="md" radius="md" key={stat.title}>
-        <Group justify="space-between">
-          <Text size="xs" c="dimmed" className={classes.title}>
-            {stat.title}
-          </Text>
-          <Icon className={classes.icon} size="1.4rem" stroke={1.5} />
-        </Group>
+export function ArrowStats({ userScores }) {
+  const [numWeeks, setNumWeeks] = useState(1);
+  const [arrowCount, setArrowCount] = useState(0);
+  const [arrowDiff, setArrowDiff] = useState(0);
+  const [displayDiff, setDisplayDiff] = useState(0);
 
-        <Group align="flex-end" gap="xs" mt={25}>
-          <Text className={classes.value}>{stat.value}</Text>
-          <Text c={stat.diff > 0 ? 'teal' : 'red'} fz="sm" fw={500} className={classes.diff}>
-            <span>{stat.diff}%</span>
-            <DiffIcon size="1rem" stroke={1.5} />
-          </Text>
-        </Group>
-
-        <Text fz="xs" c="dimmed" mt={7}>
-          Compared to previous month
-        </Text>
-      </Paper>
+  useEffect(() => {
+    const now = new Date();
+    const startOfCurrentPeriod = new Date(
+      now - numWeeks * 7 * 24 * 60 * 60 * 1000
     );
-  });
-  return (
-    <div className={classes.root}>
-      <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }}>{stats}</SimpleGrid>
-    </div>
-  );
-}
-
-//
-
-export function StatsGridIcons() {
-  const stats = data.map((stat) => {
-    const DiffIcon = stat.diff > 0 ? IconArrowUpRight : IconArrowDownRight;
-
-    return (
-      <Paper withBorder p="md" radius="md" key={stat.title}>
-        <Group justify="apart">
-          <div>
-            <Text c="dimmed" tt="uppercase" fw={700} fz="xs" className={classes.label}>
-              {stat.title}
-            </Text>
-            <Text fw={700} fz="xl">
-              {stat.value}
-            </Text>
-          </div>
-          <ThemeIcon
-            color="gray"
-            variant="light"
-            style={{
-              color: stat.diff > 0 ? 'var(--mantine-color-teal-6)' : 'var(--mantine-color-red-6)',
-            }}
-            size={38}
-            radius="md"
-          >
-            <DiffIcon size="1.8rem" stroke={1.5} />
-          </ThemeIcon>
-        </Group>
-        <Text c="dimmed" fz="sm" mt="md">
-          <Text component="span" c={stat.diff > 0 ? 'teal' : 'red'} fw={700}>
-            {stat.diff}%
-          </Text>{' '}
-          {stat.diff > 0 ? 'increase' : 'decrease'} compared to last month
-        </Text>
-      </Paper>
+    const startOfPreviousPeriod = new Date(
+      now - 2 * numWeeks * 7 * 24 * 60 * 60 * 1000
     );
-  });
+
+    let currentPeriodCount = 0;
+    let previousPeriodCount = 0;
+
+    userScores.forEach((score) => {
+      score.arrowValues.forEach((arrow) => {
+        const arrowDate = new Date(arrow.updatedAt);
+        if (arrow.arrowScore !== null) {
+          if (arrowDate >= startOfCurrentPeriod) {
+            currentPeriodCount++;
+          } else if (arrowDate >= startOfPreviousPeriod) {
+            previousPeriodCount++;
+          }
+        }
+      });
+    });
+
+    setArrowCount(currentPeriodCount);
+    const diff = currentPeriodCount - previousPeriodCount;
+    setArrowDiff(diff);
+    setDisplayDiff(Math.abs(diff));
+  }, [userScores, numWeeks]);
+
+  const DiffIcon = arrowDiff > 0 ? IconArrowUpRight : IconArrowDownRight;
+  const Icon = IconArcheryArrow
+
+  const testFunction = () => {
+    console.log('userScores', userScores)
+  }
 
   return (
-    <div className={classes.root}>
-      <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
-    </div>
+    <Paper
+      withBorder
+      p="lg"
+      radius="md"
+      shadow="md"
+      className={classes.wrapper}
+    >
+      <Group mb={12} justify="space-between">
+        <Title size="h3" c="dimmed" className={classes.title}>
+          Arrows
+        </Title>
+        <Icon className={classes.icon} size="1.4rem" stroke={1.5} />
+      </Group>
+      <Button.Group>
+        <Button
+          onClick={() => setNumWeeks(1)}
+          p={6}
+          variant={numWeeks === 1 ? "filled" : "outline"}
+          color={numWeeks === 1 ? "blue" : "gray"}
+        >
+          Week
+        </Button>
+        <Button
+          onClick={() => setNumWeeks(4.3)}
+          p={6}
+          variant={numWeeks === 4.3 ? "filled" : "outline"}
+          color={numWeeks === 4.3 ? "blue" : "gray"}
+        >
+          Month
+        </Button>
+        <Button
+          onClick={() => setNumWeeks(13)}
+          p={6}
+          variant={numWeeks === 13 ? "filled" : "outline"}
+          color={numWeeks === 13 ? "blue" : "gray"}
+        >
+          Quarter
+        </Button>
+      </Button.Group>
+
+      <Group align="flex-end" gap="xs" mt={24}>
+        <Text className={classes.value}>{arrowCount}</Text>
+        <ThemeIcon
+          color="gray"
+          variant="light"
+          c={arrowDiff > 0 ? "teal" : "red"}
+          size={32}
+          radius="md"
+        >
+          <DiffIcon size="1.8rem" stroke={1.5} />
+        </ThemeIcon>
+      </Group>
+
+      <Text fz="sm" c="dimmed" mt={7}>
+        <Text component="span" c={arrowDiff > 0 ? "teal" : "red"} fw={700}>
+          {displayDiff}
+        </Text>{" "}
+        {arrowDiff > 0 ? "more" : "fewer"} than the previous
+        {numWeeks === 1 ? " week" : numWeeks === 4.3 ? " month" : " quarter"}
+      </Text>
+      <Button mt={24} p={12} onClick={testFunction}>View More</Button>
+    </Paper>
   );
 }

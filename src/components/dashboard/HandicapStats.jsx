@@ -1,20 +1,8 @@
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import {
-  Paper,
-  Group,
-  Button,
-  Title,
-  Alert,
-  Text,
-  ThemeIcon,
-} from "@mantine/core";
+import { Paper, Group, Button, Title, Alert } from "@mantine/core";
 import classes from "./HandicapStats.module.css";
-import {
-  IconChartLine,
-  IconArrowUpRight,
-  IconArrowDownRight,
-} from "@tabler/icons-react";
+import { IconChartLine } from "@tabler/icons-react";
 import {
   LineChart,
   Line,
@@ -22,7 +10,7 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  CartesianGrid
+  CartesianGrid,
 } from "recharts";
 
 export function HandicapStats({ userScores }) {
@@ -85,39 +73,43 @@ export function HandicapStats({ userScores }) {
   const Icon = IconChartLine;
 
   const currentData = chartData[selectedBowType];
-  const mostRecentHandicap =
-    currentData.length > 0
-      ? currentData[currentData.length - 1].Handicap
-      : null;
-  const oldestHandicap =
-    currentData.length > 0 ? currentData[0].Handicap : null;
-  const oldestDate = currentData.length > 0 ? currentData[0].createdAt : null;
-  const difference =
-    mostRecentHandicap !== null && oldestHandicap !== null
-      ? mostRecentHandicap - oldestHandicap
-      : null;
-
-  const DiffIcon = difference > 0 ? IconArrowUpRight : IconArrowDownRight;
 
   const minHandicap = Math.min(...currentData.map((item) => item.Handicap));
   const maxHandicap = Math.max(...currentData.map((item) => item.Handicap));
   const yAxisDomain = [
-    Math.floor(minHandicap / 10) * 10,
-    Math.ceil(maxHandicap / 10) * 10,
+    Math.floor(minHandicap / 20) * 20,
+    Math.ceil(maxHandicap / 20) * 20,
   ];
-  const yAxisTicks = [];
-  for (let i = yAxisDomain[0]; i <= yAxisDomain[1]; i += 10) {
-    yAxisTicks.push(i);
-  }
 
   const handleBowTypeSelection = (bowType) => {
-    console.log(chartData);
     if (chartData[bowType] && chartData[bowType].length > 0) {
       setSelectedBowType(bowType);
       setAlertMessage(null); // Clear any previous alerts
     } else {
       setAlertMessage(`No handicap data for selected bow type: ${bowType}`);
     }
+  };
+
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div
+          style={{
+            backgroundColor: "white",
+            padding: "10px",
+            border: "1px solid #ccc",
+          }}
+        >
+          <p>
+            <strong>Date:</strong> {payload[0].payload.createdAt}
+          </p>
+          <p>
+            <strong>Handicap:</strong> {payload[0].payload.Handicap}
+          </p>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -203,36 +195,21 @@ export function HandicapStats({ userScores }) {
             }}
             tickLine={false}
             tickMargin={5}
-            label={{ value: 'Handicap Progression', position: 'insideBottom', offset: -10 }}
+            label={{
+              value: "Handicap Progression",
+              position: "insideBottom",
+              offset: -10,
+            }}
           />
-          <YAxis domain={yAxisDomain} ticks={yAxisTicks} />
+          <YAxis domain={yAxisDomain} />
           <Line
             dataKey="Handicap"
             strokeWidth={2}
             dot={{ strokeWidth: 2, r: 4 }}
           />
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
         </LineChart>
       </ResponsiveContainer>
-      <Group align="flex-end" gap="xs" mt={24}>
-        <Text className={classes.value}>{mostRecentHandicap}</Text>
-        <ThemeIcon
-          color="gray"
-          variant="light"
-          c={difference < 0 ? "teal" : "red"}
-          size={32}
-          radius="md"
-        >
-          <DiffIcon size="1.8rem" stroke={1.5} />
-        </ThemeIcon>
-      </Group>
-      <Text fz="sm" c="dimmed" mt={7}>
-        {difference !== null && oldestDate && `An improvement of `}
-        <Text component="span" c={difference < 0 ? "teal" : "red"} fw={700}>
-          {`${Math.abs(difference)} `}
-        </Text>
-        {`since ${oldestDate}`}
-      </Text>
     </Paper>
   );
 }

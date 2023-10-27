@@ -17,3 +17,9 @@
       text-align: left;
     }
   }
+
+  .centerButton {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }

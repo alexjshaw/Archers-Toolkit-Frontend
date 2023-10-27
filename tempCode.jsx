@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import { Paper, Group, Text, Button, Title, ThemeIcon } from "@mantine/core";
-import classes from "./ArrowStats.module.css";
-import { IconArrowUpRight, IconArrowDownRight, IconArcheryArrow } from "@tabler/icons-react";
+import classes from "./RoundStats.module.css";
+import { IconArrowUpRight, IconArrowDownRight, IconTargetArrow } from "@tabler/icons-react";
+import { set } from "react-hook-form";
 
-export function ArrowStats({ userScores }) {
+export function RoundStats({ userScores }) {
   const [numWeeks, setNumWeeks] = useState(1);
-  const [arrowCount, setArrowCount] = useState(0);
-  const [arrowDiff, setArrowDiff] = useState(0);
-  const [displayDiff, setDisplayDiff] = useState(0);
+  const [finished, setFinished] = useState(0)
+  const [finishedDiff, setFinishedDiff] = useState(0)
+  const [finishedDisplayDiff, setFinishedDisplayDiff] = useState(0)
 
   useEffect(() => {
-    const now = new Date();
+    const now = new Date()
     const startOfCurrentPeriod = new Date(
       now - numWeeks * 7 * 24 * 60 * 60 * 1000
     );
@@ -18,34 +19,30 @@ export function ArrowStats({ userScores }) {
       now - 2 * numWeeks * 7 * 24 * 60 * 60 * 1000
     );
 
-    let currentPeriodCount = 0;
-    let previousPeriodCount = 0;
+    let currentPeriodFinishedCount = 0;
+    let previousPeriodFinishedCount = 0;
 
     userScores.forEach((score) => {
-      score.arrowValues.forEach((arrow) => {
-        const arrowDate = new Date(arrow.updatedAt);
-        if (arrow.arrowScore !== null) {
-          if (arrowDate >= startOfCurrentPeriod) {
-            currentPeriodCount++;
-          } else if (arrowDate >= startOfPreviousPeriod) {
-            previousPeriodCount++;
-          }
+      const roundDate = new Date(score.createdAt)
+      if (roundDate >= startOfCurrentPeriod && score.visible === true) {
+        if (score.completed === true) {
+          currentPeriodFinishedCount++
         }
-      });
-    });
+      } else if (roundDate >= startOfPreviousPeriod && score.visible === true) {
+        if (score.completed === true) {
+          previousPeriodFinishedCount++
+        }
+      }
+    })
 
-    setArrowCount(currentPeriodCount);
-    const diff = currentPeriodCount - previousPeriodCount;
-    setArrowDiff(diff);
-    setDisplayDiff(Math.abs(diff));
-  }, [userScores, numWeeks]);
+    const finishedDiff = currentPeriodFinishedCount - previousPeriodFinishedCount
+    setFinished(currentPeriodFinishedCount)
+    setFinishedDiff(finishedDiff)
+    setFinishedDisplayDiff(Math.abs(finishedDiff))
+  }, [userScores, numWeeks])
 
-  const DiffIcon = arrowDiff > 0 ? IconArrowUpRight : IconArrowDownRight;
-  const Icon = IconArcheryArrow
-
-  const testFunction = () => {
-    console.log('userScores', userScores)
-  }
+  const FinishedDiffIcon = finishedDiff > 0 ? IconArrowUpRight : IconArrowDownRight;
+  const Icon = IconTargetArrow
 
   return (
     <Paper
@@ -57,7 +54,7 @@ export function ArrowStats({ userScores }) {
     >
       <Group mb={12} justify="space-between">
         <Title size="h3" c="dimmed" className={classes.title}>
-          Arrows
+          Rounds
         </Title>
         <Icon className={classes.icon} size="1.4rem" stroke={1.5} />
       </Group>
@@ -87,28 +84,26 @@ export function ArrowStats({ userScores }) {
           Quarter
         </Button>
       </Button.Group>
-
-      <Group align="flex-end" gap="xs" mt={24}>
-        <Text className={classes.value}>{arrowCount}</Text>
+      <Group mt={24}>
+        <Text className={classes.subtitle}>{finished}</Text>
         <ThemeIcon
           color="gray"
           variant="light"
-          c={arrowDiff > 0 ? "teal" : "red"}
+          c={finishedDiff > 0 ? "teal" : "red"}
           size={32}
           radius="md"
         >
-          <DiffIcon size="1.8rem" stroke={1.5} />
+          <FinishedDiffIcon size="1.8rem" stroke={1.5} />
         </ThemeIcon>
       </Group>
-
       <Text fz="sm" c="dimmed" mt={7}>
-        <Text component="span" c={arrowDiff > 0 ? "teal" : "red"} fw={700}>
-          {displayDiff}
+        <Text component="span" c={finishedDiff > 0 ? "teal" : "red"} fw={700}>
+          {finishedDisplayDiff}
         </Text>{" "}
-        {arrowDiff > 0 ? "more" : "fewer"} than the previous
+        {finishedDiff > 0 ? "more" : "fewer"} than the previous
         {numWeeks === 1 ? " week" : numWeeks === 4.3 ? " month" : " quarter"}
       </Text>
-      <Button mt={24} p={12} onClick={testFunction}>View More</Button>
+      <Button mt={24} p={12}>View More</Button>
     </Paper>
   );
 }

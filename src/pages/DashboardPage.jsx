@@ -92,7 +92,6 @@ export default function DashboardPage() {
     <AppShell.Main>
     {renderComponent === "DashboardStats" && <DashboardStats userScores={userScores} />}
     {renderComponent === "NewProfileForm" && <NewProfileForm setRenderComponent={setRenderComponent} />}
-    {/* <NewProfileForm /> */}
     </AppShell.Main>
   );
 }

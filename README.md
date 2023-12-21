@@ -14,17 +14,17 @@ The idea for this project came from many years of personal experience dealing wi
 # Features
 Based on my own experience, and having spoken to a wide range of archers of all standards, the intended feature set of the project is as follows:
 
-**Round Scoring**  Users will be able to record their scores as they shoot a round, selecting from a large number of standard rounds, a custom round of their own creation, or a freeform practice session. They will have the ability to score by simply entering their arrow values, or by placing arrows on a virtual target. The latter method will provide instant feedback on their group size and location, allowing them to respond accordingly.
+**Round Scoring: **  Users will be able to record their scores as they shoot a round, selecting from a large number of standard rounds, a custom round of their own creation, or a freeform practice session. They will have the ability to score by simply entering their arrow values, or by placing arrows on a virtual target. The latter method will provide instant feedback on their group size and location, allowing them to respond accordingly.
 
-**Data Tracking**  Users can view data on their scoring history, enabling them to view their progression over time and identify trends within their shooting and how different factors effect their scores.
+**Data Tracking: **  Users can view data on their scoring history, enabling them to view their progression over time and identify trends within their shooting and how different factors effect their scores.
 
-**Archers Handicap**  Every user will have a Handicap generated based on the official Archery GB Handicap tables. Their handicap is effectively a rating that reflects their ability level. Every score they shoot is given a handicap value, and these values are then used to calculate the users overall handicap. This will be used behind the scenes within a few other features.
+**Archers Handicap: **  Every user will have a Handicap generated based on the official Archery GB Handicap tables. Their handicap is effectively a rating that reflects their ability level. Every score they shoot is given a handicap value, and these values are then used to calculate the users overall handicap. This will be used behind the scenes within a few other features.
 
-**Social**  Curating a list of friends within the app will enable users to share scores, compare results and compete against other archers with ease.
+**Social: **  Curating a list of friends within the app will enable users to share scores, compare results and compete against other archers with ease.
 
-**Simulated Competitions**  Any round may be shot as a simulated competition. In this mode a competitors score will be revealed as a user progresses through their own round, enabling users to compare themselves to others and practice the mental side of competing. Users will be able to shoot against scores shared with them by their friends, or a random score chosen from a user with a similar handicap. If no such score is available the system will randomly generate a suitble score for them to compete against
+**Simulated Competitions: **  Any round may be shot as a simulated competition. In this mode a competitors score will be revealed as a user progresses through their own round, enabling users to compare themselves to others and practice the mental side of competing. Users will be able to shoot against scores shared with them by their friends, or a random score chosen from a user with a similar handicap. If no such score is available the system will randomly generate a suitble score for them to compete against
 
-**Leagues**  A robust league system will be in place, that will enable any user to create a league with their own custom rules and open it up to the community or privately invite their friends. They will be able to customise the number of rounds, permitted bow types, round types, number of scores required, and whether it is an open competition or if users handicaps will be used to enable archers of varying standards to compete on a level playing field.
+**Leagues: **  A robust league system will be in place, that will enable any user to create a league with their own custom rules and open it up to the community or privately invite their friends. They will be able to customise the number of rounds, permitted bow types, round types, number of scores required, and whether it is an open competition or if users handicaps will be used to enable archers of varying standards to compete on a level playing field.
 
 # Tech Stack
 **Front End**
